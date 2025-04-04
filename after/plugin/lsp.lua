@@ -49,7 +49,8 @@ cmp.setup({
 vim.diagnostic.config({
   virtual_text = true,
   signs = true,
-  up1te_in_insert = false,
+  update_in_insert = false,
+  update_in_insert = false,
   underline = true,
   severity_sort = true,
   float = {
