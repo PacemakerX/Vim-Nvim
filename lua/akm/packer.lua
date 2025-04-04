@@ -120,8 +120,6 @@ return require('packer').startup(function(use)
     use ('rust-lang/rust.vim')
     use ('mrcjkb/rustaceanvim')
     use ('vadimcn/codelldb')
-
-<<<<<<< HEAD
     use {
     'github/copilot.vim',
     config = function()
@@ -130,6 +128,3 @@ return require('packer').startup(function(use)
     }
 
     end)
-=======
-  end)
->>>>>>> upstream/master
