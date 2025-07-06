@@ -76,3 +76,31 @@ vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true }) -- m
 vim.keymap.set("x", "<leader>a", "<Plug>(coc-codeaction-selected)")
 vim.keymap.set("n", "<leader>a", "<Plug>(coc-codeaction-selected)")
 
+    -- Save on pressing Escape in normal mode
+    vim.keymap.set("n", "<Esc>", ":w<CR><Esc>", { noremap = true, silent = true })
+
+    -- Save on pressing Escape in insert mode
+    vim.keymap.set("i", "<Esc>", "<Esc>:w<CR>", { noremap = true, silent = true })
+
+    -- Auto-save on CursorHold (when idle)
+    vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+    pattern = "*",
+    callback = function()
+        if vim.bo.modified and vim.bo.modifiable and vim.bo.buftype == "" then
+        vim.cmd("silent! write")
+        end
+    end,
+    })
+
+    -- Adjust idle delay (default is 4000ms = 4s, we're setting it to 1s)
+    vim.o.updatetime = 100
+vim.api.nvim_create_user_command("ViewOnlySplit", function()
+  local buf = vim.fn.bufadd("./cp/codeforces/output.txt")
+  vim.fn.bufload(buf)
+  vim.cmd("rightbelow split")
+  vim.cmd("buffer " .. buf)
+  vim.bo.readonly = true
+  vim.bo.modifiable = false
+  vim.cmd("wincmd p") -- move cursor back to previous window
+end, {})
+
