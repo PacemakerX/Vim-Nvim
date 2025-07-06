@@ -49,7 +49,19 @@ vim.keymap.set("n", "<F6>", ":NvimTreeToggle<CR>", opts)
 -- vim.keymap.set("n", "<F7>", ":NvimTreeFindFileToggle<CR>", opts)
 
 -- Run C/C++ commands remaps
-vim.keymap.set("n","<F8>", "<Esc>:w <CR>:vs<CR>:term g++ -std=c++20 % -Wall -g -o %.out && ./%.out <CR>")
+vim.keymap.set("n", "<F8>", function()
+  local file = vim.fn.expand("%")
+  local out = vim.fn.expand("%:r") .. ".out"
+  vim.fn.jobstart({ "g++", "-std=c++20", "-Wall", "-g", file, "-o", out }, {
+    on_exit = function(_, exit_code)
+      if exit_code == 0 then
+        vim.fn.jobstart({ "./" .. out }, { detach = true })
+      else
+        vim.notify("Compilation failed!", vim.log.levels.ERROR)
+      end
+    end
+  })
+end, { desc = "Compile and run C++ without terminal" })
 vim.keymap.set("n","<F10>", "<Esc>:w <CR>:sp<CR>:term g++ -std=c++20 % -Wall -g -o %.out && ./%.out <CR>")
 
 --[[ Run Kotlin commands remaps
