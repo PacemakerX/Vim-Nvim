@@ -104,3 +104,10 @@ vim.api.nvim_create_user_command("ViewOnlySplit", function()
   vim.cmd("wincmd p") -- move cursor back to previous window
 end, {})
 
+-- Enable autoread for all files
+vim.opt.autoread = true
+
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+  pattern = "*",
+  command = "checktime",
+})
