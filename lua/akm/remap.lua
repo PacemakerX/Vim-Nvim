@@ -111,3 +111,6 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHo
   pattern = "*",
   command = "checktime",
 })
+
+vim.keymap.set("n", "<C-/>", "gcc", { remap = true, desc = "Toggle comment line" })
+vim.keymap.set("v", "<C-/>", "gc", { remap = true, desc = "Toggle comment selection" })
