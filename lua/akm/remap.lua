@@ -56,6 +56,7 @@ vim.keymap.set("n", "<F8>", function()
     on_exit = function(_, exit_code)
       if exit_code == 0 then
         vim.fn.jobstart({ "./" .. out }, { detach = true })
+        vim.notify("Compilation Sucessful!", vim.log.levels.INFO)
       else
         vim.notify("Compilation failed!", vim.log.levels.ERROR)
       end
@@ -114,3 +115,28 @@ vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHo
 
 vim.keymap.set("n", "<C-/>", "gcc", { remap = true, desc = "Toggle comment line" })
 vim.keymap.set("v", "<C-/>", "gc", { remap = true, desc = "Toggle comment selection" })
+
+-- ⏱️ Stopwatch toggle
+vim.keymap.set("n", "<leader>ts", function()
+  local t = require("akm.timer")
+  if vim.g.timer_active then
+    t.stop_timer()
+    vim.g.timer_active = false
+  else
+    t.start_stopwatch()
+    vim.g.timer_active = true
+  end
+end, { desc = "Toggle CP Stopwatch" })
+
+
+
+local timer = require("akm.timer")
+-- ⏳ Countdown Mode (under <leader>r)
+vim.keymap.set("n", "<leader>rc", function()
+  timer.start_countdown(0.6)
+end, { desc = "Start Countdown 90min (⏳)" })
+
+
+vim.keymap.set("n", "<leader>re", function()
+  timer.stop_timer()
+end, { desc = "Stop Countdown (⏹️)" })
