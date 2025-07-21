@@ -30,7 +30,7 @@ return {
         virtual_text = true,
         signs = true,
         underline = true,
-        update_in_insert = false, -- Only update diagnostics when you exit insert mode
+        update_in_insert = true, -- Only update diagnostics when you exit insert mode
         severity_sort = true,
       })
 
@@ -66,8 +66,8 @@ return {
       })
 
       -- OMNISHARP/CSHARP-LS (FOR UNITY) OPTIMIZATIONS
-      local unity_root_markers = { 'Assets', 'ProjectSettings', 'Packages' }
-      local csharp_root_dir = require('lspconfig.util').root_pattern(unpack(unity_root_markers))
+      -- local unity_root_markers = { 'Assets', 'ProjectSettings', 'Packages' }
+      -- local csharp_root_dir = require('lspconfig.util').root_pattern(unpack(unity_root_markers))
 
 
       -- MASON SETUP
@@ -81,10 +81,11 @@ return {
       require('mason-lspconfig').setup({
         ensure_installed = {
           'lua_ls',
-          'csharp_ls',
+          -- 'csharp_ls',
           'pyright',
           'eslint',
           'jdtls', -- Ensure jdtls is installed by Mason
+          'clangd',
         },
         handlers = {
           -- Default handler for servers without custom setups
