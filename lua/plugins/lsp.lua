@@ -30,7 +30,7 @@ return {
         virtual_text = true,
         signs = true,
         underline = true,
-        update_in_insert = false, -- Only update diagnostics when you exit insert mode
+        update_in_insert = true, -- Only update diagnostics when you exit insert mode
         severity_sort = true,
       })
 
@@ -85,6 +85,7 @@ return {
           'pyright',
           'eslint',
           'jdtls', -- Ensure jdtls is installed by Mason
+          'clangd'
         },
         handlers = {
           -- Default handler for servers without custom setups
@@ -114,7 +115,24 @@ return {
               },
             })
           end,
-
+            clangd = function()
+            lspconfig.clangd.setup({
+              capabilities = capabilities,
+              cmd = {
+              "clangd",
+              "--background-index",
+              "--clang-tidy",
+              "--completion-style=detailed",
+              "--header-insertion=never", -- optional
+              },
+              filetypes = { "c", "cpp", "objc", "objcpp" },
+              root_dir = lspconfig.util.root_pattern(
+              "compile_commands.json",
+              "compile_flags.txt",
+              ".git"
+              ),
+            })
+            end,
           -- Custom handler for lua_ls
           lua_ls = function()
             lspconfig.lua_ls.setup({
